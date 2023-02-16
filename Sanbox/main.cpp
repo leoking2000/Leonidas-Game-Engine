@@ -1,5 +1,6 @@
 #include <iostream>
 #include <LGE.h>
+#include <IOC/Container.h>
 
 class A
 {
@@ -11,15 +12,25 @@ public:
 class B : public A
 {
 public:
-	i32 Test() override { return 400; }
+	i32 Test() override { return 100; }
 };
 
 int main()
 {
-	A a;
-	B b;
+	using namespace LGE;
 
-	std::cout << LGE::add(a.Test(), b.Test()) << std::endl;
+	IOC::Container::Get().RegisterFactory<A>([] { return std::make_unique<A>(); });
+	IOC::Container::Get().RegisterFactory<B>([] { return std::make_unique<B>(); });
+
+	auto a = IOC::Container::Get().CreateInstance<A>();
+	auto b = IOC::Container::Get().CreateInstance<B>();
+
+	std::cout << LGE::add(a->Test(), b->Test()) << std::endl; // 600
+
+	IOC::Container::Get().RegisterFactory<A>([] { return std::make_unique<B>(); });
+
+	a = IOC::Container::Get().CreateInstance<A>();
+	std::cout << LGE::add(a->Test(), b->Test()) << std::endl; // 200
 
 	return 0;
 }

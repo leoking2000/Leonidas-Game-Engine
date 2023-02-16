@@ -84,10 +84,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\IOC\Container.h" />
     <ClInclude Include="src\LGE.h" />
     <ClInclude Include="src\Types.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\IOC\Container.cpp" />
     <ClCompile Include="src\LGE.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
